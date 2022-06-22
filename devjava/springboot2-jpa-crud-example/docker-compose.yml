@@ -1,0 +1,36 @@
+version: '2.1'
+services: 
+
+  database:
+    image: mysql:5.7
+    container_name: mysql.container.cl
+    volumes:
+      - "/var/lib/docker/volumes/mysql-data/_data:/var/lib/mysql"
+    ports:
+      - "33060:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 'almaveloz'     
+    networks: 
+      apinetwork:
+  web:
+    build: .
+    container_name: rest-springboot-container
+    command: java -jar app.jar
+    #volumes:
+     # - .:/usr/src/app
+    ports:
+      - "8080:8080"
+    networks: 
+      apinetwork:
+
+networks:
+  apinetwork:
+    driver: bridge
+    ipam: 
+      config: 
+        - subnet: 172.16.40.0/24
+          gateway: 172.16.40.1
+          aux_addreses:
+            database: 172.16.40.2 
+# ipam is removed in version 3, issues with swarm mode
+# https://github.com/docker/compose/issues/4474     
