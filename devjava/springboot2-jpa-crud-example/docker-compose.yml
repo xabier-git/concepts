@@ -30,7 +30,8 @@ networks:
       config: 
         - subnet: 172.16.40.0/24
           gateway: 172.16.40.1
-          aux_addreses:
+          aux_addresses:
             database: 172.16.40.2 
 # ipam is removed in version 3, issues with swarm mode
 # https://github.com/docker/compose/issues/4474     
+                      
