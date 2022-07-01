@@ -1,4 +1,5 @@
-FROM node:latest as node
+#redefine nommbre contenedor a node (para referenciarlo abajo en el contenedor nginx)
+FROM node:latest as node 
 #FROM node:10-alpine as node
 
 ARG ENV=prod

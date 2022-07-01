@@ -1,5 +1,5 @@
 #De la imagen que partimos
-FROM openjdk:8-jre-alpine
+FROM openjdk:11
  
 #Directorio de trabajo
 WORKDIR /opt/app
