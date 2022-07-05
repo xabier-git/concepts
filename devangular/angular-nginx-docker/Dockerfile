@@ -21,3 +21,6 @@ FROM nginx:1.13.8-alpine
 
 COPY --from=node /app/dist/ /usr/share/nginx/html
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+
+# docker build -t ng-docker-app:v1.0.0 -f ./Dockerfile .
+# docker run -p 8000:80 -d ng-docker-app:v1.0.0
