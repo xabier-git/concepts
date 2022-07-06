@@ -35,10 +35,10 @@ docker run -p 33060:3306  --rm -dit -e MYSQL_ROOT_PASSWORD=almaveloz --mount src
 docker exec -it <MySqlContainerNameOrId> mysql -uroot -p
 docker exec -it <MySqlContainerNameOrId> mysql -p  #se conecta a la shell de mysql
 
-docker exec -it <containerNameOrId> bash  #entra al shell de linux del contenedor 1
-docker exec -it <containerNameOrId> sh     #entra al shell de linux del contenedor 2
-docker exec -it <containerNameOrId> /bin/bash  #entra al shell de linux del contenedor 3
-docker exec -it <containerNameOrId> /bin/sh  #entra al shell de linux del contenedor 4
+docker exec -it <containerNameOrId> bash  #entra al shell de linux del contenedor (op1)
+docker exec -it <containerNameOrId> sh     #entra al shell de linux del contenedor (op2)
+docker exec -it <containerNameOrId> /bin/bash  #entra al shell de linux del contenedor (op3)
+docker exec -it <containerNameOrId> /bin/sh  #entra al shell de linux del contenedor (op4)
 
 #Images
 --------------
