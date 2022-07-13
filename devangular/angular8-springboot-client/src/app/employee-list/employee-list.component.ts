@@ -17,10 +17,12 @@ export class EmployeeListComponent implements OnInit {
     private router: Router) {}
 
   ngOnInit() {
+    console.log("calls ngOnInit()");
     this.reloadData();
   }
 
   reloadData() {
+    console.log("calls reloadData()");
     this.employees = this.employeeService.getEmployeesList();
   }
 

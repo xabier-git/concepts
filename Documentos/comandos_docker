@@ -1,5 +1,7 @@
 #Docker comandos básicos
 
+#Procesos
+---------
 docker ps 	#lista contenedores activos
 docker ps -a 	#lista todos los contenedores
 
@@ -7,43 +9,36 @@ docker ps -a 	#lista todos los contenedores
 #Docker con Mysql
 
 #Volumenes
-
+----------
 docker volume create <volumeNameOrId>  
-docker volume ls    #lista los volumenes creados
+docker volume ls    (lista los volumenes creados)
 docker volume rm <volumeNameOrId>
 docker volume inspect <volumeNameOrId>
-docker volume prune    #borrar todos los volúmenes que no estén siendo usados por contenedores
+docker volume prune    (borrar todos los volúmenes que no estén siendo usados por contenedores)
 
-#Ejemplo
+#Ejemplos
 docker volume create mysql-data
 docker volume inspect mysql-data
 
 #Pulls
 ------------
+#Ejemplos
 docker pull mysql/mysql-server:5.6
 docker pull mysql:5.7
 
-#Runs
-------------
-docker run -d -p 33060:3306 --name mysql-db  -e MYSQL_ROOT_PASSWORD=secret --mount src=mysql-db-data,dst=/var/lib/mysql mysql   // descarga (si no existe ) la ultima version mysql y ejecuta la imagen 
-docker run --name mysql-db-5.6 -e MYSQL_ROOT_PASSWORD=almaveloz --mount src=mysql-db-data-5.6,dst=/var/lib/mysql -d mysql/mysql-server:5.6 
-docker run --name mysql-5.6 -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=almaveloz mysql:5.6  
-docker run -p 33060:3306  --rm -dit -e MYSQL_ROOT_PASSWORD=almaveloz --mount src=mysql-data,dst=/var/lib/mysql --name mysql mysql:5.7   (* más abajo el comando para conectarse desde consola)
-
-#Execs
-----------------
-docker exec -it <MySqlContainerNameOrId> mysql -uroot -p
-docker exec -it <MySqlContainerNameOrId> mysql -p  #se conecta a la shell de mysql
-
-docker exec -it <containerNameOrId> bash  #entra al shell de linux del contenedor (op1)
-docker exec -it <containerNameOrId> sh     #entra al shell de linux del contenedor (op2)
-docker exec -it <containerNameOrId> /bin/bash  #entra al shell de linux del contenedor (op3)
-docker exec -it <containerNameOrId> /bin/sh  #entra al shell de linux del contenedor (op4)
+#Builds
+docker build -t [nombreTag:<version>] .  (construye un contenedor, buscar en el directorio actual (.) el archivo Dockerfile. el contenedor es nombrado <nombreTag:version> )
+#Ejemplos
+docker build -t atareao/chiquito:latest .
 
 #Images
 --------------
-docker rmi <imageNameOrId> #elimina una imagen 
-docker images #show images
+
+docker images (lista imagenes)
+docker images -a (lista todas las imagenes con sus ID)
+docker rmi <imageNameOrId> (elimina una imagen)
+docker rmi $(docker images -a -q)  (elimina todas las imagenes)
+docker rmi <imageNameOrId> -f (fuerza eliminar una imagen)
 
 
 #Containers
@@ -52,6 +47,25 @@ docker stop <containerNameOrId>   #detiene o baja una instancia
 docker start <containerNameOrId>   #inicia una instancia
 docker rm <containerNameOrId>      #elimina o desinstala una instancia
 docker rm -f <containerNameOrId>   #fuerza eliminar el proceso 
+
+#Runs
+------------
+#Ejemplos
+docker run -d -p 33060:3306 --name mysql-db  -e MYSQL_ROOT_PASSWORD=secret --mount src=mysql-db-data,dst=/var/lib/mysql mysql   // descarga (si no existe ) la ultima version mysql y ejecuta la imagen 
+docker run --name mysql-db-5.6 -e MYSQL_ROOT_PASSWORD=almaveloz --mount src=mysql-db-data-5.6,dst=/var/lib/mysql -d mysql/mysql-server:5.6 
+docker run --name mysql-5.6 -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=almaveloz mysql:5.6  
+docker run -p 33060:3306  --rm -dit -e MYSQL_ROOT_PASSWORD=almaveloz --mount src=mysql-data,dst=/var/lib/mysql --name mysql mysql:5.7   (* más abajo el comando para conectarse desde consola)
+
+#Execs
+----------------
+docker exec -it <MySqlContainerNameOrId> mysql -uroot -p (se conecta a la shell de mysql indicando usuario root)
+docker exec -it <MySqlContainerNameOrId> mysql -p  (se conecta a la shell de mysql, con usuario por defecto)
+
+docker exec -it <containerNameOrId> bash  (entra al shell de linux del contenedor opcion1)
+docker exec -it <containerNameOrId> sh     (entra al shell de linux del contenedor opcion2)
+docker exec -it <containerNameOrId> /bin/bash  (entra al shell de linux del contenedor opcion3)
+docker exec -it <containerNameOrId> /bin/sh  (entra al shell de linux del contenedor opcion4)
+
 
 
 #mysql command

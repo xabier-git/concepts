@@ -1,5 +1,7 @@
 apt-get update
-apt-get install net-tools
+apt-get install net-tools   (comando ifconfig)
+apt-get install iputils-ping (comando ping)
+sudo apt remove ng-common (elimina un paquete, comando ng)
 
 $ gnome-desktop-item-edit ~/Escritorio --create-new
 

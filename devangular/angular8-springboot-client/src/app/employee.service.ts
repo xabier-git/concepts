@@ -6,9 +6,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class EmployeeService {
-  //private baseUrl = 'http://localhost:8080/springboot-crud-rest/api/v1/employees';
+  private baseUrl = 'http://localhost:8080/springboot-crud-rest/api/v1/employees';
   
-  private baseUrl = 'http://rest-springboot-container:8080/springboot-crud-rest/api/v1/employees';
+  //private baseUrl = 'http://rest-springboot-container:8080/springboot-crud-rest/api/v1/employees';
 
   constructor(private http: HttpClient) { }
 
@@ -29,6 +29,7 @@ export class EmployeeService {
   }
 
   getEmployeesList(): Observable<any> {
+    console.log("call getEmployeesList():");
     return this.http.get(`${this.baseUrl}`);
   }
 }

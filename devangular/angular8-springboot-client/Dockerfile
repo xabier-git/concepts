@@ -26,3 +26,7 @@ COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 # docker build -t ng-docker-angular-nginx:v1.0.0 -f ./Dockerfile .
 # docker run -p 8001:80 --name angular8-springboot-client -d ng-docker-angular-nginx:v1.0.0 
 # http://localhost:8001
+
+#levantar las 3-capas en un ambiente con docker-compose.yml
+# docker-compose up --build  -d
+# TODO: tratar renombrar a angular-springboot-jpa-mysql-docker-compose
