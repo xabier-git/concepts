@@ -27,18 +27,18 @@ docker pull mysql/mysql-server:5.6
 docker pull mysql:5.7
 
 #Builds
-docker build -t [nombreTag:<version>] .  (construye un contenedor, buscar en el directorio actual (.) el archivo Dockerfile. el contenedor es nombrado <nombreTag:version> )
+docker build -t [nombreTag:<version>] .  #(construye un contenedor, buscar en el directorio actual ./ el archivo Dockerfile. el contenedor es nombrado <nombreTag:version> )
 #Ejemplos
 docker build -t atareao/chiquito:latest .
 
 #Images
 --------------
 
-docker images (lista imagenes)
-docker images -a (lista todas las imagenes con sus ID)
-docker rmi <imageNameOrId> (elimina una imagen)
-docker rmi $(docker images -a -q)  (elimina todas las imagenes)
-docker rmi <imageNameOrId> -f (fuerza eliminar una imagen)
+docker images #lista imagenes
+docker images -a #lista todas las imagenes con sus ID
+docker rmi <imageNameOrId> #elimina una imagen
+docker rmi $(docker images -a -q)  #elimina todas las imagenes
+docker rmi <imageNameOrId> -f #fuerza eliminar una imagen
 
 
 #Containers
@@ -51,32 +51,35 @@ docker rm -f <containerNameOrId>   #fuerza eliminar el proceso
 #Runs
 ------------
 #Ejemplos
-docker run -d -p 33060:3306 --name mysql-db  -e MYSQL_ROOT_PASSWORD=secret --mount src=mysql-db-data,dst=/var/lib/mysql mysql   // descarga (si no existe ) la ultima version mysql y ejecuta la imagen 
-docker run --name mysql-db-5.6 -e MYSQL_ROOT_PASSWORD=almaveloz --mount src=mysql-db-data-5.6,dst=/var/lib/mysql -d mysql/mysql-server:5.6 
+docker run -d -p 33060:3306 --name mysql-db  -e MYSQL_ROOT_PASSWORD=secret --mount src=mysql-db-data,dst=/var/lib/mysql mysql   #descarga (si no existe ) la ultima version mysql y ejecuta la imagen
+
+docker run --name mysql-db-5.6 -e MYSQL_ROOT_PASSWORD=almaveloz --mount src=mysql-db-data-5.6,dst=/var/lib/mysql -d mysql/mysql-server:5.6
+
 docker run --name mysql-5.6 -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=almaveloz mysql:5.6  
-docker run -p 33060:3306  --rm -dit -e MYSQL_ROOT_PASSWORD=almaveloz --mount src=mysql-data,dst=/var/lib/mysql --name mysql mysql:5.7   (* más abajo el comando para conectarse desde consola)
+
+docker run -p 33060:3306  --rm -dit -e MYSQL_ROOT_PASSWORD=almaveloz --mount src=mysql-data,dst=/var/lib/mysql --name mysql mysql:5.7  # (*) más abajo el comando para conectarse desde consola
 
 #Execs
 ----------------
-docker exec -it <MySqlContainerNameOrId> mysql -uroot -p (se conecta a la shell de mysql indicando usuario root)
-docker exec -it <MySqlContainerNameOrId> mysql -p  (se conecta a la shell de mysql, con usuario por defecto)
+docker exec -it <MySqlContainerNameOrId> mysql -uroot -p #(se conecta a la shell de mysql indicando usuario root)
+docker exec -it <MySqlContainerNameOrId> mysql -p #(se conecta a la shell de mysql, con usuario por defecto)
 
-docker exec -it <containerNameOrId> bash  (entra al shell de linux del contenedor opcion1)
-docker exec -it <containerNameOrId> sh     (entra al shell de linux del contenedor opcion2)
-docker exec -it <containerNameOrId> /bin/bash  (entra al shell de linux del contenedor opcion3)
-docker exec -it <containerNameOrId> /bin/sh  (entra al shell de linux del contenedor opcion4)
+docker exec -it <containerNameOrId> bash  #(entra al shell de linux del contenedor opcion1)
 
+docker exec -it <containerNameOrId> sh     #(entra al shell de linux del contenedor opcion2)
 
+docker exec -it <containerNameOrId> /bin/bash  #(entra al shell de linux del contenedor opcion3)
+
+docker exec -it <containerNameOrId> /bin/sh  #(entra al shell de linux del contenedor opcion4)
 
 #mysql command
 ------------
 mysql --host=127.0.0.1 --port=33060 --user=root --password=almaveloz		(*)
+
 mysql -h127.0.0.1 -P33060 -uroot -palmaveloz
 
-
-
 #Otros
-(Para encontrar la IP del contenedor)
+##Para encontrar la IP del contenedor
 docker inspect <containerNameOrId> | grep '"IPAddress"' | head -n 1
 docker inspect -f "{{ .NetworkSettings.IPAddress }}" <containerNameOrId>
 docker inspect -f '{{range.NetworkSettings.Networks}} {{. IPAddress}} {{end}}' name_or_id
@@ -92,12 +95,14 @@ docker login && docker push gatoencerrado/cheers2019
 docker tag local-image:tagname new-repo:tagname
 docker push new-repo:tagname
 
+#Ejemplos
 #Make sure to change tagname with your desired image repository tag.
 docker push gatoencerrado/repo:tagname
 
 ##Mios
 
-docker build -t gatoencerrado/tutorial-image .
+docker build -t gatoencerrado:q/tutorial-image .
 docker run --name tutorial-container -p 80:8080 -d gatoencerrado/tutorial-image 
 docker run --name api-node-container -p 80:8080 --link mysql-container:mysqldns -d api-node-image 
+
 
