@@ -11,10 +11,10 @@ docker ps -a 	#lista todos los contenedores
 #Volumenes
 ----------
 docker volume create <volumeNameOrId>  
-docker volume ls    (lista los volumenes creados)
+docker volume ls    #lista los volumenes creados
 docker volume rm <volumeNameOrId>
 docker volume inspect <volumeNameOrId>
-docker volume prune    (borrar todos los volúmenes que no estén siendo usados por contenedores)
+docker volume prune    #borrar todos los volúmenes que no estén siendo usados por contenedores
 
 #Ejemplos
 docker volume create mysql-data
@@ -27,30 +27,46 @@ docker pull mysql/mysql-server:5.6
 docker pull mysql:5.7
 
 #Builds
-docker build -t [nombreTag:<version>] .  #(construye un contenedor, buscar en el directorio actual ./ el archivo Dockerfile. el contenedor es nombrado <nombreTag:version> )
+docker build -t [nombreTag:<version>] .  #construye un contenedor, buscando el archivo Dockerfile en el directorio actual ./ .El contenedor es nombrado <nombreTag:version> 
+
 #Ejemplos
 docker build -t atareao/chiquito:latest .
+
+#Compose
+docker compose up #busca y ejecuta el archivo docker-compose.yml en el directorio actual ./
+
 
 #Images
 --------------
 
 docker images #lista imagenes
+
 docker images -a #lista todas las imagenes con sus ID
+
 docker rmi <imageNameOrId> #elimina una imagen
+
 docker rmi $(docker images -a -q)  #elimina todas las imagenes
+
 docker rmi <imageNameOrId> -f #fuerza eliminar una imagen
 
 
 #Containers
 ------------
+docker ps  #lista las instancias
+
 docker stop <containerNameOrId>   #detiene o baja una instancia
+
 docker start <containerNameOrId>   #inicia una instancia
+
 docker rm <containerNameOrId>      #elimina o desinstala una instancia
+
 docker rm -f <containerNameOrId>   #fuerza eliminar el proceso 
+
 
 #Runs
 ------------
 #Ejemplos
+
 docker run -d -p 33060:3306 --name mysql-db  -e MYSQL_ROOT_PASSWORD=secret --mount src=mysql-db-data,dst=/var/lib/mysql mysql   #descarga (si no existe ) la ultima version mysql y ejecuta la imagen
 
 docker run --name mysql-db-5.6 -e MYSQL_ROOT_PASSWORD=almaveloz --mount src=mysql-db-data-5.6,dst=/var/lib/mysql -d mysql/mysql-server:5.6
@@ -59,18 +75,21 @@ docker run --name mysql-5.6 -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=almaveloz mys
 
 docker run -p 33060:3306  --rm -dit -e MYSQL_ROOT_PASSWORD=almaveloz --mount src=mysql-data,dst=/var/lib/mysql --name mysql mysql:5.7  # (*) más abajo el comando para conectarse desde consola
 
+
 #Execs
 ----------------
-docker exec -it <MySqlContainerNameOrId> mysql -uroot -p #(se conecta a la shell de mysql indicando usuario root)
-docker exec -it <MySqlContainerNameOrId> mysql -p #(se conecta a la shell de mysql, con usuario por defecto)
+docker exec -it <MySqlContainerNameOrId> mysql -uroot -p #se conecta a la shell de mysql indicando usuario root
 
-docker exec -it <containerNameOrId> bash  #(entra al shell de linux del contenedor opcion1)
+docker exec -it <MySqlContainerNameOrId> mysql -p #se conecta a la shell de mysql, con usuario por defecto
 
-docker exec -it <containerNameOrId> sh     #(entra al shell de linux del contenedor opcion2)
+docker exec -it <containerNameOrId> bash  #entra al shell de linux del contenedor opcion1
 
-docker exec -it <containerNameOrId> /bin/bash  #(entra al shell de linux del contenedor opcion3)
+docker exec -it <containerNameOrId> sh     #entra al shell de linux del contenedor opcion2
 
-docker exec -it <containerNameOrId> /bin/sh  #(entra al shell de linux del contenedor opcion4)
+docker exec -it <containerNameOrId> /bin/bash  #entra al shell de linux del contenedor opcion3
+
+docker exec -it <containerNameOrId> /bin/sh  #entra al shell de linux del contenedor opcion4
+
 
 #mysql command
 ------------
@@ -80,10 +99,13 @@ mysql -h127.0.0.1 -P33060 -uroot -palmaveloz
 
 #Otros
 ##Para encontrar la IP del contenedor
+
 docker inspect <containerNameOrId> | grep '"IPAddress"' | head -n 1
 docker inspect -f "{{ .NetworkSettings.IPAddress }}" <containerNameOrId>
 docker inspect -f '{{range.NetworkSettings.Networks}} {{. IPAddress}} {{end}}' name_or_id
 
+#Logs
+docker logs --tail 1000 -f 2da713afa281e7b066c4c0b8e2240565eb2b226ebd50dd819f13a42a42e91662 
 
 ##DOCKER HUB CUENTA
 docker login && docker push gatoencerrado/cheers2019
@@ -105,4 +127,6 @@ docker build -t gatoencerrado:q/tutorial-image .
 docker run --name tutorial-container -p 80:8080 -d gatoencerrado/tutorial-image 
 docker run --name api-node-container -p 80:8080 --link mysql-container:mysqldns -d api-node-image 
 
-
+#Maven
+mvn clean package -X -DskipTests # Limpia la salida de la compilaion del proyecto y luego genera el JAR saltando la ejecucion del Test
+#http://barcelonageeks.com/ciclo-de-vida-de-maven-y-comandos-basicos-de-maven/
