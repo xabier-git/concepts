@@ -1,0 +1,15 @@
+<div style="display: flex; height: 100vh;">
+  <nav style="width: 200px; background-color: #f0f0f0; padding: 1rem;">
+    <ul style="list-style: none; padding: 0;">
+      <li><a routerLink="/" routerLinkActive="active">Ingreso</a></li>
+      <li><a routerLink="/edicion" routerLinkActive="active">Edición</a></li>
+      <li><a routerLink="/listado" routerLinkActive="active">Listado</a></li>
+    </ul>
+  </nav>
+  <main class="content" style="flex-grow: 1; padding: 1rem;" >
+    <h1>Bienvenido a Footballer Instagramers</h1>
+    <p>Explora y gestiona perfiles de futbolistas en Instagram.</p>
+    <hr/>
+    <router-outlet></router-outlet>
+  </main>
+</div>

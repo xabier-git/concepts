@@ -1,0 +1,21 @@
+<div class="profiles-list">
+  <h2>Listado de Perfiles</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Nickname</th>
+        <th>Tiene Novio</th>
+        <th>Equipo Actual</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let profile of profiles">
+        <td>{{ profile.nombre }}</td>
+        <td>{{ profile.nickname }}</td>
+        <td>{{ profile.tieneNovio !== undefined && profile.tieneNovio !== null ? (profile.tieneNovio ? 'Sí' : 'No') : 'No especificado' }}</td>
+        <td>{{ profile.equipoActual }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
