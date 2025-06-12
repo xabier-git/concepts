@@ -5,8 +5,7 @@ sudo apt remove ng-common (elimina un paquete, comando ng)
 
 $ gnome-desktop-item-edit ~/Escritorio --create-new
 
-#****MAVEN****
-mvn spring-boot:run
+#****MAVEN***ls
 ./mvnw spring-boot:run
 ./mvnw clean package --> luego ejecutarel jar
 mvn -Dmaven.test.skip=true package
@@ -45,3 +44,6 @@ mysql -h<host> -u<user> -p<password> -P<port>
 
 #Procesos
 ps -A f | grep mysql (todos los procesos y sus parametros, filtrados por 'mysql')
+
+#Elimina procesos java
+ps -A | grep java | awk '{print $1}' | xargs kill -9 $1
