@@ -1,0 +1,20 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iprofile-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: iprofile-backend
+  template:
+    metadata:
+      labels:
+        app: iprofile-backend
+    spec:
+      containers:
+        - name: backend
+          image: iprofile-backend:1.0
+          ports:
+            - containerPort: 3000

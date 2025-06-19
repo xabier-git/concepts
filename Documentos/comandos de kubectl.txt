@@ -1,0 +1,48 @@
+comandos de kubectl
+
+
+ChatGPT dijo:
+Claro, aquí tienes una lista práctica y clasificada de comandos kubectl usados frecuentemente para trabajar con Kubernetes. Te explico qué hace cada uno.
+
+🧾 Básicos de gestión
+Comando	Descripción
+kubectl get pods	Lista todos los Pods en el namespace actual.
+kubectl get svc	Lista los Services (servicios).
+kubectl get deployments	Muestra los deployments activos.
+kubectl get all	Muestra todos los recursos: pods, services, deployments, etc.
+kubectl describe pod <nombre>	Detalle completo del pod, eventos, errores, etc.
+kubectl delete pod <nombre>	Elimina un pod (se reinicia si está manejado por deployment).
+kubectl logs <nombre-del-pod>	Muestra los logs del contenedor por defecto en el pod.
+kubectl logs <pod> -c <contenedor>	Logs de un contenedor específico en un pod.
+
+🚀 Aplicar y eliminar archivos YAML
+Comando	Descripción
+kubectl apply -f archivo.yaml	Crea o actualiza los recursos definidos en el YAML.
+kubectl delete -f archivo.yaml	Elimina los recursos definidos en el YAML.
+kubectl create -f archivo.yaml	Crea los recursos (falla si ya existen).
+
+🛠️ Debug y acceso interactivo
+Comando	Descripción
+kubectl exec -it <nombre-del-pod> -- /bin/bash	Entra al contenedor con bash.
+kubectl exec -it <pod> -c <contenedor> -- /bin/sh	Entra a un contenedor específico con sh.
+kubectl port-forward <pod> 8080:80	Redirige el puerto 80 del pod al 8080 local.
+
+📦 Namespaces
+Comando	Descripción
+kubectl get ns	Lista los namespaces disponibles.
+kubectl create ns <nombre>	Crea un nuevo namespace.
+kubectl delete ns <nombre>	Elimina un namespace.
+kubectl get pods -n <namespace>	Muestra pods de un namespace específico.
+
+🔄 Contexto y configuración
+Comando	Descripción
+kubectl config get-contexts	Lista todos los contextos (clusters).
+kubectl config use-context <nombre>	Cambia de contexto activo.
+kubectl config current-context	Muestra el contexto actual.
+
+🧪 Utilitarios útiles
+Comando	Descripción
+kubectl rollout status deployment <nombre>	Verifica el estado del rollout de un deployment.
+kubectl scale deployment <nombre> --replicas=3	Escala un deployment a 3 réplicas.
+kubectl expose pod <nombre> --port=80 --target-port=8080 --type=NodePort	Expone un pod como un service.
+kubectl top pod	Muestra uso de CPU y memoria (requiere metrics-server).

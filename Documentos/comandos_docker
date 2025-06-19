@@ -1,9 +1,6 @@
 #Docker comandos básicos
 
-#Procesos
----------
-docker ps 	#lista contenedores activos
-docker ps -a 	#lista todos los contenedores
+
 
 
 #Docker con Mysql
@@ -22,19 +19,50 @@ docker volume inspect mysql-data
 
 #Pulls
 ------------
-#Ejemplos
+#Ejemplos Pulls
 docker pull mysql/mysql-server:5.6
 docker pull mysql:5.7
 
 #Builds
-docker build -t [nombreTag:<version>] .  #construye un contenedor, buscando el archivo Dockerfile en el directorio actual ./ .El contenedor es nombrado <nombreTag:version> 
+--------
+docker build -t {nombreTag:<version>} .[/directorio]  #construye un contenedor nombrado <nombreTag:version>, buscando el archivo Dockerfile en el directorio ./
 
-#Ejemplos
+#Ejemplos Builds
 docker build -t atareao/chiquito:latest .
+docker build -t iprofile-backend:latest ./iprofile-backend
+
 
 #Compose
 docker compose up #busca y ejecuta el archivo docker-compose.yml en el directorio actual ./
 
+#Runs
+------------
+#Ejemplos
+
+docker run -d -p 33060:3306 --name mysql-db  -e MYSQL_ROOT_PASSWORD=secret --mount src=mysql-db-data,dst=/var/lib/mysql mysql   #descarga (si no existe ) la ultima version mysql y ejecuta la imagen en un contenedor
+
+docker run --name mysql-db-5.6 -e MYSQL_ROOT_PASSWORD=almaveloz --mount src=mysql-db-data-5.6,dst=/var/lib/mysql -d mysql/mysql-server:5.6
+
+docker run --name mysql-5.6 -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=almaveloz mysql:5.6  
+
+docker run -p 33060:3306  --rm -dit -e MYSQL_ROOT_PASSWORD=almaveloz --mount src=mysql-data,dst=/var/lib/mysql --name mysql mysql:5.7  # (*) más abajo el comando para conectarse desde consola
+
+docker run -p 8080:80 --name iprofile-frontend -d iprofile-frontend:latest     #proyecto fullstack
+docker run -p 3000:3000 --name iprofile-backend -d iprofile-backend:latest
+
+#Execs
+----------------
+docker exec -it <MySqlContainerNameOrId> mysql -uroot -p #se conecta a la shell de mysql indicando usuario root
+
+docker exec -it <MySqlContainerNameOrId> mysql -p #se conecta a la shell de mysql, con usuario por defecto
+
+docker exec -it <containerNameOrId> bash  #entra al shell de linux del contenedor opcion1
+
+docker exec -it <containerNameOrId> sh     #entra al shell de linux del contenedor opcion2
+
+docker exec -it <containerNameOrId> /bin/bash  #entra al shell de linux del contenedor opcion3
+
+docker exec -it <containerNameOrId> /bin/sh  #entra al shell de linux del contenedor opcion4
 
 #Images
 --------------
@@ -50,9 +78,11 @@ docker rmi $(docker images -a -q)  #elimina todas las imagenes
 docker rmi <imageNameOrId> -f #fuerza eliminar una imagen
 
 
-#Containers
-------------
+#Containers y procesos
+----------------------
 docker ps  #lista las instancias
+
+docker ps -a 	#lista todos los contenedores
 
 docker stop <containerNameOrId>   #detiene o baja una instancia
 
@@ -63,32 +93,7 @@ docker rm <containerNameOrId>      #elimina o desinstala una instancia
 docker rm -f <containerNameOrId>   #fuerza eliminar el proceso 
 
 
-#Runs
-------------
-#Ejemplos
 
-docker run -d -p 33060:3306 --name mysql-db  -e MYSQL_ROOT_PASSWORD=secret --mount src=mysql-db-data,dst=/var/lib/mysql mysql   #descarga (si no existe ) la ultima version mysql y ejecuta la imagen
-
-docker run --name mysql-db-5.6 -e MYSQL_ROOT_PASSWORD=almaveloz --mount src=mysql-db-data-5.6,dst=/var/lib/mysql -d mysql/mysql-server:5.6
-
-docker run --name mysql-5.6 -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=almaveloz mysql:5.6  
-
-docker run -p 33060:3306  --rm -dit -e MYSQL_ROOT_PASSWORD=almaveloz --mount src=mysql-data,dst=/var/lib/mysql --name mysql mysql:5.7  # (*) más abajo el comando para conectarse desde consola
-
-
-#Execs
-----------------
-docker exec -it <MySqlContainerNameOrId> mysql -uroot -p #se conecta a la shell de mysql indicando usuario root
-
-docker exec -it <MySqlContainerNameOrId> mysql -p #se conecta a la shell de mysql, con usuario por defecto
-
-docker exec -it <containerNameOrId> bash  #entra al shell de linux del contenedor opcion1
-
-docker exec -it <containerNameOrId> sh     #entra al shell de linux del contenedor opcion2
-
-docker exec -it <containerNameOrId> /bin/bash  #entra al shell de linux del contenedor opcion3
-
-docker exec -it <containerNameOrId> /bin/sh  #entra al shell de linux del contenedor opcion4
 
 
 #mysql command
@@ -130,3 +135,14 @@ docker run --name api-node-container -p 80:8080 --link mysql-container:mysqldns 
 #Maven
 mvn clean package -X -DskipTests # Limpia la salida de la compilaion del proyecto y luego genera el JAR saltando la ejecucion del Test
 #http://barcelonageeks.com/ciclo-de-vida-de-maven-y-comandos-basicos-de-maven/
+
+
+
+#MONGO DB
+
+docker run -d \
+  --name mongodb \
+  -p 27017:27017 \
+  -e MONGO_INITDB_ROOT_USERNAME=admin \
+  -e MONGO_INITDB_ROOT_PASSWORD=adminpassword \
+  mongo:latest

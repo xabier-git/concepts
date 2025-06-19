@@ -2,18 +2,27 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'http://localhost:3000/Instagramwomenfootballers';
-  private contextPath = 'IGProfilesList';
+  private apiUrl = environment.apiUrl;
+  private listUri = "list";
+  private addUri = "add";
 
   constructor(private http: HttpClient) { }
 
   getProfilesList(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/${this.contextPath}`);
+    console.log("getProfilesList()");
+    console.log("calling API with URL:", this.apiUrl+"/"+this.listUri);
+    try{
+    return this.http.get<any[]>(`${this.apiUrl}/${this.listUri}`);
+    } catch (error) {
+      console.error('Error al listar profiles:', error);
+      throw error;  
+    }
   }
 
   updateProfile(profile: any): Observable<any> {
@@ -22,7 +31,7 @@ export class ApiService {
     if (!profile || !profile.nickname) {
       throw new Error('Profile or nickname is missing');
     }
-    let url = `${this.apiUrl}/${this.contextPath}/${profile.nickname}`;
+    let url = `${this.apiUrl}/${profile.nickname}`;
     console.log("calling API with URL:", url);
     try {
       return this.http.put(url, profile);
@@ -36,7 +45,7 @@ export class ApiService {
     if (!nickname) {
       throw new Error('Nickname is required to delete a profile');
     }
-    let url = `${this.apiUrl}/${this.contextPath}/${nickname}`;
+    let url = `${this.apiUrl}/${nickname}`;
     console.log("calling API with URL:", url);
     try{
       return this.http.delete(url);
@@ -51,7 +60,8 @@ export class ApiService {
     if (!profile || !profile.nickname) {
       throw new Error('Profile or nickname is missing');
     }
-    let url = `${this.apiUrl}/${this.contextPath}`;
+    let url = `${this.apiUrl}/${this.addUri}`;
+    // Asegúrate de que el perfil tenga un nickname único
     console.log("calling API with URL:", url);
     try {
       console.log('Creating profile:', profile);

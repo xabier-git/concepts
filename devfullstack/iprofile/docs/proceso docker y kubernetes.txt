@@ -1,0 +1,98 @@
+🐳 1. Construcción de imágenes Docker
+Primero construimos las imágenes necesarias para el frontend y backend desde sus Dockerfile.
+
+bash
+Copiar
+Editar
+# Desde la raíz del proyecto
+
+docker build -t iprofile-backend:latest ./iprofile-backend
+docker run -p 3000:3000 --name iprofile-backend -d iprofile-backend:latest
+
+docker build -t iprofile-frontend:latest ./iprofile-frontend
+docker run -p 8080:80 --name iprofile-frontend -d iprofile-frontend:latest
+
+
+🐳 (opcional) 2. Probar con docker-compose (entorno local sin Kubernetes)
+  backend:
+    build: .
+    name: iprofile-backend
+    container_name: iprofile-backend:latest
+    environment:
+      - MONGO_URL=mongodb://admin:adminpassword@mongodb:27017/
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+
+#Esto es útil si quieres probar todo en tu máquina local antes de pasar a Kubernetes.
+
+docker-compose up
+Esto levanta:
+MongoDB (con usuario, contraseña y volumen)
+Backend conectado a Mongo
+
+Frontend en NGINX
+
+☸️ 3. Despliegue en Kubernetes
+#Asegúrate de tener el contexto de Kubernetes activo (por ejemplo, Docker Desktop con Kubernetes activado).
+
+➤ Paso 1: PVC (volumen persistente para MongoDB)
+
+kubectl apply -f k8s/mongo-pvc.yaml
+
+➤ Paso 2: MongoDB Deployment y Service
+
+kubectl apply -f k8s/mongo-deployment.yaml
+kubectl apply -f k8s/mongo-service.yaml
+
+#Espera unos segundos a que el pod de Mongo esté corriendo (kubectl get pods).
+
+➤ Paso 3: Backend Deployment y Service
+
+kubectl apply -f k8s/backend-deployment.yaml
+kubectl apply -f k8s/backend-service.yaml
+#El backend depende de Mongo, así que debe ir después.
+
+➤ Paso 4: Frontend Deployment y Service
+
+kubectl apply -f k8s/frontend-deployment.yaml
+kubectl apply -f k8s/frontend-service.yaml
+
+#Este servicio servirá Angular vía NGINX.
+
+➤ Paso 5: Ingress
+
+kubectl apply -f k8s/ingress.yaml
+
+Este es el punto de entrada HTTP para acceder a /iprofile (frontend) y /iprofile/api (backend).
+
+✅ Orden Resumido
+docker build (frontend y backend)
+
+mongo-pvc.yaml
+
+mongo-deployment.yaml + mongo-service.yaml
+
+backend-deployment.yaml + backend-service.yaml
+
+frontend-deployment.yaml + frontend-service.yaml
+
+ingress.yaml
+
+
+#Balanceador final para exponer el puerto 80 de iprofile-frontend a 8080
+
+
+ kubectl port-forward -n ingress-nginx ingress-nginx-controller-7dcbd5984b-fldsj 8080:80
+
+ kubectl port-forward -n ingress-nginx ingress-nginx-controller-7dcbd5984b-fldsj 8081:3000
+ 
+ # generico por id y puertos
+ kubectl port-forward -n ingress-nginx ingress-nginx-controller-XXXX <Puerto Expuesto Exterior:<Puerto Expuesto Ingress>
+
+
+#ejemplo como actualizar un deploy , si actualizas una imagen docker o el mismo yaml
+
+kubectl apply -f k8s/frontend-deployment.yaml
+kubectl rollout restart deployment iprofile-frontend

@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: ./iprofile-frontend
+    ports:
+      - "8080:80"
+
+  backend:
+    build: ./iprofile-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://admin:adminpassword@mongo:27017/iprofiledb
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: adminpassword
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+
+volumes:
+  mongo_data:
