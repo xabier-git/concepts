@@ -47,3 +47,10 @@ ps -A f | grep mysql (todos los procesos y sus parametros, filtrados por 'mysql'
 
 #Elimina procesos java
 ps -A | grep java | awk '{print $1}' | xargs kill -9 $1
+
+#eliminar un proceso en un puerto
+
+#obtiene el PID
+lsof -i :8080
+#luego
+kill -9 PID

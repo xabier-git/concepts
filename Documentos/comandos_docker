@@ -19,6 +19,8 @@ docker volume inspect mysql-data
 
 #Pulls
 ------------
+docker pull {nombreImagen}:[tag]
+
 #Ejemplos Pulls
 docker pull mysql/mysql-server:5.6
 docker pull mysql:5.7
@@ -29,6 +31,7 @@ docker build -t {nombreTag:<version>} .[/directorio]  #construye un contenedor n
 
 #Ejemplos Builds
 docker build -t atareao/chiquito:latest .
+docker build -t iprofile-frontend:latest .
 docker build -t iprofile-backend:latest ./iprofile-backend
 
 
@@ -66,16 +69,15 @@ docker exec -it <containerNameOrId> /bin/sh  #entra al shell de linux del conten
 
 #Images
 --------------
-
 docker images #lista imagenes
 
 docker images -a #lista todas las imagenes con sus ID
 
 docker rmi <imageNameOrId> #elimina una imagen
 
-docker rmi $(docker images -a -q)  #elimina todas las imagenes
-
 docker rmi <imageNameOrId> -f #fuerza eliminar una imagen
+
+docker rmi $(docker images -a -q)  #elimina todas las imagenes
 
 
 #Containers y procesos
