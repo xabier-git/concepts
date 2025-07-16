@@ -1,0 +1,16 @@
+<h3>Editar / Eliminar Autos</h3>
+<ul>
+  <li *ngFor="let car of cars">
+    <div *ngIf="editingId !== car._id">
+      {{ car.brand }} {{ car.model }}
+      <button (click)="enableEdit(car)">Editar</button>
+      <button (click)="deleteCar(car._id!)">Eliminar</button>
+    </div>
+    <div *ngIf="editingId === car._id">
+      <input [(ngModel)]="editBrand">
+      <input [(ngModel)]="editModel">
+      <button (click)="updateCar()">Guardar</button>
+      <button (click)="cancelEdit()">Cancelar</button>
+    </div>
+  </li>
+</ul>
