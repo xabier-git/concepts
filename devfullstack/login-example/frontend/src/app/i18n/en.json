@@ -1,0 +1,17 @@
+{
+  "LOGIN": "Login",
+  "REGISTER": "Register",
+  "USERNAME": "Username",
+  "PASSWORD": "Password",
+  "SUBMIT": "Submit",
+  "LOGOUT": "Logout",
+  "WELCOME": "Welcome to the application",
+  "ERROR": {
+    "INVALID_CREDENTIALS": "Invalid username or password",
+    "REQUIRED_FIELD": "This field is required"
+  },
+  "SUCCESS": {
+    "LOGIN": "You have successfully logged in",
+    "REGISTER": "You have successfully registered"
+  }
+}

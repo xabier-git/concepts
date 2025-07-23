@@ -1,0 +1,12 @@
+{
+  "login": "Iniciar sesión",
+  "register": "Registrarse",
+  "email": "Correo electrónico",
+  "password": "Contraseña",
+  "confirmPassword": "Confirmar contraseña",
+  "loginButton": "Iniciar sesión",
+  "registerButton": "Registrarse",
+  "logout": "Cerrar sesión",
+  "welcome": "Bienvenido",
+  "protectedRoute": "Esta ruta está protegida. Debe iniciar sesión para acceder."
+}

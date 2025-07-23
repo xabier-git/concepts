@@ -1,0 +1,30 @@
+/* Estilo general del cuadro de diálogo */
+.dialog-content {
+  text-align: center;
+  padding: 20px;
+  background-color: #fefefe;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Título del cuadro de diálogo */
+.dialog-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #f44336; /* Rojo para resaltar el error */
+  margin-bottom: 10px;
+}
+
+/* Mensaje del cuadro de diálogo */
+.dialog-message {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Botón de acciones */
+.dialog-actions button {
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+}

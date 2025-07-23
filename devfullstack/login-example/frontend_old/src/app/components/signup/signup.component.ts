@@ -1,0 +1,1 @@
+// Placeholder for src/app/components/signup/signup.component.ts

@@ -1,0 +1,21 @@
+/* Centrar el formulario */
+.login-card {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+/* Estilo para los campos */
+mat-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+/* Botón de registro */
+button {
+  width: 100%;
+  margin-top: 16px;
+  font-weight: bold;
+}

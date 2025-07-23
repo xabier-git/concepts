@@ -1,0 +1,25 @@
+# Excluir node_modules (se reinstalarán en el build)
+node_modules/
+
+# Ignorar archivos de desarrollo y debug
+npm-debug.log
+yarn-error.log
+
+# Excluir archivos de entorno (pueden contener secrets)
+#.env
+#.env.*
+
+# Ignorar sistemas de control de versiones
+.git/
+.gitignore
+
+# Excluir archivos del IDE
+.idea/
+.vscode/
+
+# Ignorar builds previos
+dist/
+build/
+
+# Pero INCLUIR este archivo específico (excepción)
+!.env.production
