@@ -1,0 +1,79 @@
+#Crear un repositorio desde cero
+
+mkdir clientes-api-crud
+cd clientes-api-crud
+--
+git init
+
+--opcional--
+echo "# clientes-api-crud" > README.md
+git add README.md
+git commit -m "Initial commit: add README"
+--
+
+--Crear el repositorio en GitHub--
+Ve a github.com y haz clic en New repository.
+Nombra el repositorio: clientes-api-crud.
+Configura la visibilidad (público/privado) y otras opciones según prefieras.
+Haz clic en Create repository.
+
+-- Vincular tu proyecto local al repositorio remoto--
+
+git remote add origin https://github.com/xabier-git/clientes-api-crud.git
+git push -u origin main
+
+# push desde una rama local y crea rama remota
+
+ git push --set-upstream origin <rama>
+
+# crea rama local que apunta a rama remota  la qye crea tb
+
+git checkout -b <rama>
+git push -u origin <rama>
+
+#si olvides el -u
+git branch --set-upstream-to=origin/<rama>
+
+# en un solo comando
+git checkout -b <rama> --track origin/<rama>
+
+#graficos
+git log --oneline --graph --all --decorate
+
+# cambiar de editor a vi
+git config --global core.editor "vi"
+
+
+Comando	Efecto
+git reset	Saca todos los archivos del staging (pero guarda cambios).
+git reset archivo.txt	Saca solo archivo.txt del staging.
+git restore --staged archivo.txt	Alternativa moderna para sacar un archivo del staging.
+git reset --hard	Elimina todos los cambios (staging + directorio de trabajo).
+
+
+
+# para eliminar un archivo/carpeta del repositorio SIN eliminarlo de tu copia local
+1. Agrega .vscode/ al .gitignore (si no lo hiciste ya)
+Edita tu .gitignore y asegúrate de que contenga:
+
+.vscode/
+Esto evitará que Git vuelva a incluirla en el futuro.
+
+✅ 2. Elimina .vscode/ del índice de Git sin borrarla localmente
+
+git rm -r --cached .vscode/
+⚠️ No uses git rm -r .vscode/ sin --cached, o eliminarás los archivos localmente también.
+
+✅ 3. Confirma los cambios con un commit
+
+git commit -m "Eliminar .vscode del repositorio y agregar a .gitignore"
+✅ 4. Sube los cambios al repositorio remoto
+
+git push
+
+
+---sección docker
+#docker-compose
+
+docker-compose down -v && docker-compose up --build
+docker-compose logs -f <nombre_servicio_en_el_yml>

@@ -1,0 +1,5 @@
+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1MTU5MzY2MywiZXhwIjoxNzUxNTk3MjYzfQ.c8hIrI0bs4n4-jE5JmMj9FJWXO7LT51SD-tRPVebsD8
+
+
+
+curl -v -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1MTU5NTI4MywiZXhwIjoxNzUxNTk4ODgzfQ.fOcIasDh1v7yduLgqiRSwP-HEw-kN1OzIDi-BaUhT2A" http://localhost:8080/api/hello

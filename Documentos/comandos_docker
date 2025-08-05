@@ -1,8 +1,5 @@
 #Docker comandos básicos
 
-
-
-
 #Docker con Mysql
 
 #Volumenes
@@ -35,20 +32,78 @@ docker build -t iprofile-frontend:latest .
 docker build -t iprofile-backend:latest ./iprofile-backend
 
 
-#Compose
+#Docker-Compose
 docker compose up #busca y ejecuta el archivo docker-compose.yml en el directorio actual ./
+docker-compose down # baja los servicios
+docker-compose logs -f <nombre servicio en docker-compose.yml> # para ver los log del arrojados por las aplicaciones en el servicio
 
 #Runs
 ------------
-#Ejemplos
+#Ejemplos con Imagenes MySQL
 
-docker run -d -p 33060:3306 --name mysql-db  -e MYSQL_ROOT_PASSWORD=secret --mount src=mysql-db-data,dst=/var/lib/mysql mysql   #descarga (si no existe ) la ultima version mysql y ejecuta la imagen en un contenedor
+✅ 1. Descargar e iniciar contenedor de MySQL
+
+docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=admin123 -p 3306:3306 -d mysql:latest
+
+--name mysql-container: nombre del contenedor.
+
+-e MYSQL_ROOT_PASSWORD=admin123: define la contraseña del usuario root.
+
+-p 3306:3306: expone el puerto 3306 del contenedor a tu máquina local.
+
+-d: ejecuta el contenedor en segundo plano (detached).
+
+mysql:latest: la imagen de MySQL que se descargará (si no la tienes, Docker la bajará).
+
+✅ 2. Verificar si está corriendo
+
+docker ps
+
+CONTAINER ID   IMAGE          ...   PORTS
+abc123         mysql:latest   ...   0.0.0.0:3306->3306/tcp
+
+✅ 3. Conectarte al contenedor (opcional)
+Para acceder a la consola de MySQL dentro del contenedor:
+
+docker exec -it mysql-container mysql -uroot -p
+Te pedirá la contraseña (admin123) y abrirá el cliente MySQL.
+
+✅ 4. Parar el contenedor
+
+docker stop mysql-container
+✅ 5. Reiniciar el contenedor
+
+docker start mysql-container
+
+✅ 6. Eliminar el contenedor (opcional)
+
+docker rm -f mysql-container
+
+⚠️ Nota:
+Por defecto, los datos no persisten si eliminas el contenedor. Si deseas que los datos persistan, necesitas montar un volumen:
+
+docker run --name mysql-nopass \
+  -e MYSQL_ALLOW_EMPTY_PASSWORD=yes \
+  -p 3306:3306 \
+  -d mysql:latest
+
+docker run --name mi_contenedor_mysql \
+  -e MYSQL_ALLOW_EMPTY_PASSWORD=yes \
+  -p 3306:3306 \
+  -d mysql:latest
+
+--otros
+
+docker run -d -p 33060:3306 --name mysql-db  -e MYSQL_ROOT_PASSWORD=secret --mount src=mysql-db-data,dst=/var/lib/mysql mysql:latest   #descarga (si no existe ) la ultima version mysql y ejecuta la imagen en un contenedor
 
 docker run --name mysql-db-5.6 -e MYSQL_ROOT_PASSWORD=almaveloz --mount src=mysql-db-data-5.6,dst=/var/lib/mysql -d mysql/mysql-server:5.6
 
-docker run --name mysql-5.6 -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=almaveloz mysql:5.6  
+docker run --name mi_contenedor_mysql -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=almaveloz mysql:latest  
 
-docker run -p 33060:3306  --rm -dit -e MYSQL_ROOT_PASSWORD=almaveloz --mount src=mysql-data,dst=/var/lib/mysql --name mysql mysql:5.7  # (*) más abajo el comando para conectarse desde consola
+docker run -p 33060:3306 --rm -dit -e MYSQL_ROOT_PASSWORD=almaveloz --mount src=mysql-data,dst=/var/lib/mysql --name mi_mysql_cont mysql:5.7  # (*) más abajo el comando para conectarse desde consola
+
+
+
 
 docker run -p 8080:80 --name iprofile-frontend -d iprofile-frontend:latest     #proyecto fullstack
 docker run -p 3000:3000 --name iprofile-backend -d iprofile-backend:latest
